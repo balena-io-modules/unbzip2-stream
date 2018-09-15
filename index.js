@@ -12,6 +12,7 @@ class Unbzip2Stream extends stream.Transform {
         this.blockSize = 0;
         this.done = false;
         this.bitReader = null;
+        this.streamCRC = null;
 
     }
 
@@ -38,9 +39,8 @@ class Unbzip2Stream extends stream.Transform {
                 bytes.push(value)
             };
 
-            var done = bz2.decompress(this.bitReader, push, buffer, length);
-
-            if(done) {
+            this.streamCRC = bz2.decompress(this.bitReader, push, buffer, length, this.streamCRC);
+            if (this.streamCRC === null) {
                 this.push(null);
                 return false;
             } else {
