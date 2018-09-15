@@ -22,7 +22,7 @@ class Unbzip2Stream extends stream.Transform {
         try {
             return this._decompressBlock();
         } catch( error ) {
-            this.emit('error', error);
+            this.destroy(error);
             return false;
         }
     }
@@ -41,7 +41,8 @@ class Unbzip2Stream extends stream.Transform {
 
             this.streamCRC = bz2.decompress(this.bitReader, push, buffer, length, this.streamCRC);
             if (this.streamCRC === null) {
-                this.push(null);
+                // reset for next bzip2 header
+                this.blockSize = 0;
                 return false;
             } else {
                 this.push(Buffer.from(bytes));
@@ -60,20 +61,25 @@ class Unbzip2Stream extends stream.Transform {
             });
         }
 
-        while (this.hasBytes - this.bitReader.bytesRead + 1 >= ((25000 + 100000 * this.blockSize) || 4)){
+        while (!this.destroyed && this.hasBytes - this.bitReader.bytesRead + 1 >= ((25000 + 100000 * this.blockSize) || 4)){
             // console.error('decompressing with', hasBytes - bitReader.bytesRead + 1, 'bytes in buffer');
-            if (!this.done) this.done = !this._decompressAndQueue();
-            if (this.done) break;
+            this._decompressAndQueue();
         }
 
         process.nextTick(next);
     }
 
     _flush(next) {
-        if(!this.done) {
-            while(this._decompressAndQueue())
-                continue;
+        while (!this.destroyed && this.hasBytes > this.bitReader.bytesRead) {
+            this._decompressAndQueue();
         }
+        if (this.destroyed) {
+            return;
+        }
+        if (this.streamCRC !== null) {
+            this.destroy(new Error("input stream ended prematurely"));
+        }
+        this.push(null);
     }
 }
 

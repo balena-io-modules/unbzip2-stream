@@ -17,6 +17,20 @@ test('one chunk of compressed data piped into unbzip2-stream results in original
 
 });
 
+test('concatenated bz2 streams piped into unbzip2-stream results in original file content', function(t) {
+    t.plan(1);
+    var compressed = fs.readFileSync('test/fixtures/concatenated.bz2');
+    var unbz2 = unbzip2Stream();
+    unbz2.pipe( concat(function(data) {
+        var expected = "ab\n";
+        t.equal(data.toString('utf-8'), expected);
+    }));
+
+    unbz2.write(compressed);
+    unbz2.end();
+
+});
+
 test('should emit error when stream is broken', function(t) {
     t.plan(1);
     var compressed = fs.readFileSync('test/fixtures/broken');
@@ -52,7 +66,7 @@ test('should emit error when crc is broken', function(t) {
 });
 
 test('should emit error when stream is broken in a different way?', function(t) {
-    t.plan(1);
+    t.plan(2);
     // this is the smallest truncated file I found that reproduced the bug, but
     // longer files will also work.
     var truncated = 'test/fixtures/truncated.bz2';
@@ -66,6 +80,6 @@ test('should emit error when stream is broken in a different way?', function(t) 
             t.ok(true, err);
         }).
         on('close', function (err) {
-            t.ok(false, "Should not reach end of stream without failing.");
+            t.ok(true, "Should close the stream on error.");
         });
 });
