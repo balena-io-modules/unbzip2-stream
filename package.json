@@ -1,5 +1,5 @@
 {
-  "name": "unbzip2-stream",
+  "name": "@balena/unbzip2-stream",
   "version": "1.4.1",
   "description": "streaming unbzip2 implementation in pure javascript for node and browsers",
   "keywords": [
@@ -19,13 +19,13 @@
     "download-test": "beefy test/browser/long.js --open -- -t brfs",
     "test": "tape test/*.js"
   },
-  "author": "Jan Bölsche <jan@lagomorph.de>",
+  "author": "Balena Ltd. <hello@balena.io>, Jan Bölsche <jan@lagomorph.de>",
   "repository": {
-    "url": "https://github.com/regular/unbzip2-stream.git",
+    "url": "https://github.com/balena-io-modules/unbzip2-stream.git",
     "type": "git"
   },
   "bugs": {
-    "url": "https://github.com/regular/unbzip2-stream/issues"
+    "url": "https://github.com/balena-io-modules/unbzip2-stream/issues"
   },
   "files": [
     "index.js",
