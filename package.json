@@ -1,6 +1,6 @@
 {
   "name": "@balena/unbzip2-stream",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "streaming unbzip2 implementation in pure javascript for node and browsers",
   "keywords": [
     "bzip",
@@ -46,5 +46,8 @@
     "uglify-js": "^3.0.10"
   },
   "dependencies": {},
-  "license": "MIT"
+  "license": "MIT",
+  "versionist": {
+    "publishedAt": "2026-10-26T10:23:35.547Z"
+  }
 }

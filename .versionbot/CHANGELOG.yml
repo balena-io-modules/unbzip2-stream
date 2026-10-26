@@ -1,0 +1,18 @@
+- commits:
+    - subject: Add typings
+      hash: ba53156805b3dcf258b6667476d2974e0936ecc3
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+    - subject: "package.json: Publish as @balena/unbzip2-stream"
+      hash: c746dfba030ea425c5bd9e46deec5e1ba1cef721
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+  version: 1.4.2
+  title: ""
+  date: 2026-10-26T10:23:35.513Z
