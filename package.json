@@ -29,10 +29,12 @@
   },
   "files": [
     "index.js",
+    "index.d.ts",
     "lib",
     "dist/unbzip2-stream.min.js"
   ],
   "main": "index.js",
+  "types": "index.d.ts",
   "devDependencies": {
     "beefy": "^2.1.8",
     "brfs": "^1.2.0",
